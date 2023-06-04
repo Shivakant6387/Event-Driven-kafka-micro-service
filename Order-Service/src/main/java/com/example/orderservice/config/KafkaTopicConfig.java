@@ -7,11 +7,15 @@ import org.springframework.kafka.config.TopicBuilder;
 
 @Configuration
 public class KafkaTopicConfig {
-    @Value("${spring.topic.name}")
+
+    @Value("${spring.kafka.topic.name}")
     private String topicName;
 
     @Bean
     public NewTopic topic(){
-        return TopicBuilder.name(topicName).build();
+        return TopicBuilder.name(topicName.trim())
+                .partitions(1)
+                .replicas(1)
+                .build();
     }
 }

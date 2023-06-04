@@ -18,14 +18,19 @@ public class OrderController {
     public OrderController(OrderProducer orderProducer) {
         this.orderProducer = orderProducer;
     }
-    @PostMapping("/order")
+
+    @PostMapping("/orders")
     public String placeOrder(@RequestBody Order order){
+
         order.setOrderId(UUID.randomUUID().toString());
-        OrderEvent orderEvent=new OrderEvent();
+
+        OrderEvent orderEvent = new OrderEvent();
         orderEvent.setStatus("PENDING");
         orderEvent.setMessage("order status is in pending state");
         orderEvent.setOrder(order);
+
         orderProducer.sendMessage(orderEvent);
-        return "Order placed Successfully ...";
+
+        return "Order placed successfully ...";
     }
 }
